@@ -1,4 +1,6 @@
-var PAGE_ONE = document.getElementById("page-one"),
+'use strict';
+
+var SUBMIT = document.getElementById("submit"),
 	YOUR_SIGN = document.getElementById("your-sign");
 
 
@@ -38,15 +40,25 @@ function signAssign(sign){
 	}
 }
 
+//returns date range of match signs - to be used in the matchHover() function
+function getDates(matchsign){
+	for (var i = 0; i<SIGN_LIST.length; i++){
+		if (matchsign == SIGN_LIST[i].sign){
+			return SIGN_LIST[i].dates;
+		}
+	}
+}
+
 
 function signPick(){
+	console.log("signPick initiated");
 	//clear previous content from your-sign div
 	YOUR_SIGN.innerHTML = "";
 
 	//assign month and day variables
-	var MONTH_SELECTED = document.getElementById("month");	
-		DAY_SELECTED = document.getElementById("day");
-		SIGN = "";
+	var MONTH_SELECTED = document.getElementById("month"),	
+		DAY_SELECTED = document.getElementById("day"),
+		SIGN = "",
 		MONTH_PLUS_ONE = parseInt(MONTH_SELECTED.value) + 1;
 
 	//pick zodiac based on month and day
@@ -102,58 +114,52 @@ function signPick(){
 					"<br>Your power color is " + "~<span style='color:" + SIGN_COLOR + "'>" + SIGN_COLOR + "</span>~." + 
 					"<br>Your best day of the week is usually a " + "~" + SIGN_DAY + "~." + 
 					"<br>Look to the sky: ~" + SIGN_RULER + "~ is your ruler!" + 
-					"<br>Your best relationships are with ~<span id = 'match-one'>" + SIGN_MATCHES[1] + "</span>~ and ~<span id = 'match-two'>" + SIGN_MATCHES[2] + "</span>~," + 
-					"<br>But your true love is ~<span id='match-zero'>" + SIGN_MATCHES[0] + "</span>~!";
+					"<br>Your best relationships are with ~<span class='match-text'>" + SIGN_MATCHES[1] + "</span>~ and ~<span class='match-text'>" + SIGN_MATCHES[2] + "</span>~," + 
+					"<br>But your true love is ~<span class='match-text'>" + SIGN_MATCHES[0] + "</span>~!";
 	};
 
-	//popups when scrolling over matches
-	
-	var MATCH_ONE = document.getElementById("match-one"),
-		MATCH_TWO = document.getElementById("match-two"),
-		MATCH_ZERO = document.getElementById("match-zero"),
-		MATCH_ONE_POPUP = document.getElementById("match-one-popup"),
-		MATCH_TWO_POPUP = document.getElementById("match-two-popup"),
-		MATCH_ZERO_POPUP = document.getElementById("match-zero-popup");
-
-
-	MATCH_ONE.onmouseover = function(){ 
-		signAssign(SIGN_MATCHES[1]);
-		MATCH_ONE_POPUP.innerHTML += SIGN_DATES[0] + " - " + SIGN_DATES[1];
-		MATCH_ONE_POPUP.style.display = "block";
-	}
-
-	MATCH_ONE.onmouseout = function(){
-		MATCH_ONE_POPUP.innerHTML = "";
-		MATCH_ONE_POPUP.style.display = "none";
-	}
-
-	MATCH_TWO.onmouseover = function(){
-		signAssign(SIGN_MATCHES[2]);
-		MATCH_TWO_POPUP.innerHTML += SIGN_DATES[0] + " - " + SIGN_DATES[1];
-		MATCH_TWO_POPUP.style.display = "block";
-
-	}
-
-	MATCH_TWO.onmouseout = function(){
-		MATCH_TWO_POPUP.innerHTML = "";
-		MATCH_TWO_POPUP.style.display = "none";
-	}
-
-	MATCH_ZERO.onmouseover = function(){
-		signAssign(SIGN_MATCHES[0]);
-		MATCH_ZERO_POPUP.innerHTML += SIGN_DATES[0] + " - " + SIGN_DATES[1];
-		MATCH_ZERO_POPUP.style.display = "block";
-	}
-
-	MATCH_ZERO.onmouseout = function(){
-		MATCH_ZERO_POPUP.innerHTML = "";
-		MATCH_ZERO_POPUP.style.display = "none";
-	}
-
-
-	
-	
-	//hide page 1
-	//PAGE_ONE.className += " display--none";
 }
+
+//displays date range of match signs when hovering over matches
+function matchHover(){
+	var MATCH_TEXT = document.getElementsByClassName("match-text"),
+		MATCH_POPUP = document.getElementById("popup");	
+
+	console.log(MATCH_TEXT);
+
+	for (var m of MATCH_TEXT){
+		m.onmouseover = function(e){
+			console.log(e);
+			var matchText = e.target.innerHTML;
+			var matchDates = getDates(matchText);
+			MATCH_POPUP.innerHTML += matchDates[0] + " - " + matchDates[1];
+			MATCH_POPUP.style.display = "block"; 
+			/*MATCH_POPUP.style.position = "absolute";
+			MATCH_POPUP.style.left = e.x;
+			MATCH_POPUP.style.top = e.y; */
+		}
+	}
+
+	for (var m of MATCH_TEXT){
+		m.onmouseout = function(e){
+			MATCH_POPUP.innerHTML = "";
+			MATCH_POPUP.style.display = "none";
+		}
+	}
+
+}
+
+function init(){
+	console.log("init start");
+	signPick();
+	matchHover();
+}
+
+
+//document.getElementById("submit").onclick = init();
+document.addEventListener("DOMContentLoaded", function(){
+	document.getElementById("submit").addEventListener("click", function(){
+		init();
+	});
+}) 
 

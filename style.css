@@ -1,9 +1,42 @@
+body{
+	font-family:"Poiret One", sans-serif;
+	margin-left: 50px;
+	margin-top: 40px;
+}
+
 .display--none{
 	display: none;
 }
 
-/*.popup {
-	width: 100px;
-	height: 100px;
-	background-color: blue;
-} */
+.padding-bottom{
+	padding-bottom: 15px;
+}
+
+.select{
+	display: inline-block;
+	position: relative;
+	font-size: 16px;
+}
+
+.select select{
+	outline: none;
+	-webkit-appearance: none; 
+	display: block;
+  	padding: .5em 2em .5em 1em;
+  	margin: 0;
+}
+
+.line-height--big{
+	line-height: 40px;
+}
+
+.font-size--large{
+	font-size: large;
+}
+
+#popup {
+	z-index: 1;
+	width: 150px;
+	height: 25px;
+	background-color: white;
+} 

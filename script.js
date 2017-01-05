@@ -96,7 +96,7 @@ function signPick(){
 		SIGN = "Scorpio";
 	} else if ((MONTH_SELECTED.value == 10 && 22<= DAY_SELECTED.value && DAY_SELECTED.value <=30) ||
 				(MONTH_SELECTED.value == 11 && DAY_SELECTED.value <= 21)){
-		SIGN = "Sagitarius";
+		SIGN = "Sagittarius";
 	} 
 
 	signAssign(SIGN);
